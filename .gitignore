@@ -125,3 +125,5 @@ x.png
 # scrapy outputs
 *-out.csv
 *-out.json
+*-out.jl
+*-out.xml
