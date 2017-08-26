@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+from __future__ import print_function
 from __future__ import generators
 import requests
 from bs4 import BeautifulSoup
@@ -19,7 +20,7 @@ def crawl_baidu_music():
         extract_by_css('.song-title > a:nth-of-type(1)'),
         extract_by_css('.author_list'),
     ):
-        print 'rank:', rank, 'title:', title, 'singer:', singer
+        print('rank:', rank, 'title:', title, 'singer:', singer)
         yield rank, title, singer
 
 if __name__ == '__main__':
