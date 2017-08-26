@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+from __future__ import print_function
+from __future__ import print_function
 import urllib, urllib2
 
 from bs4 import BeautifulSoup
@@ -25,12 +27,12 @@ if __name__ == '__main__':
         username='tomsmith',
         password='SuperSecretPassword!'
     )
-    print res
+    print(res)
 
     res = post_info(
         'http://the-internet.herokuapp.com/authenticate',
         username='user',
         password='password'
     )
-    print res
+    print(res)
 

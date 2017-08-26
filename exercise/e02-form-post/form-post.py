@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+from __future__ import print_function
+from __future__ import print_function
 import urllib, urllib2
 
 
@@ -22,12 +24,12 @@ if __name__ == '__main__':
         username='tomsmith',
         password='SuperSecretPassword!'
     )
-    print response.code, response.headers.get('location')
+    print(response.code, response.headers.get('location'))
 
     response = post_info(
         'http://the-internet.herokuapp.com/authenticate',
         username='user',
         password='password'
     )
-    print response.code, response.headers.get('location')
+    print(response.code, response.headers.get('location'))
 

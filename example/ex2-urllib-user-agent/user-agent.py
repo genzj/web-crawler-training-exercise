@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+from __future__ import print_function
+from __future__ import print_function
 import urllib2
 from bs4 import BeautifulSoup
 
@@ -14,13 +16,13 @@ def read_user_agent(req=None):
 
 if __name__ == '__main__':
     user_agent = read_user_agent()
-    print 'Original user-agent is:', user_agent
+    print('Original user-agent is:', user_agent)
 
-    req = urllib2.Request(
+    _req = urllib2.Request(
         'http://www.whatsmyua.info/',
         headers={
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3192.0 Safari/537.36'
         }
     )
-    user_agent = read_user_agent(req)
-    print 'Now user-agent is:', user_agent
+    user_agent = read_user_agent(_req)
+    print('Now user-agent is:', user_agent)
