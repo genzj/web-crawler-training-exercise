@@ -10,20 +10,20 @@ class BookdetailSpider(CrawlSpider):
     start_urls = ['http://books.toscrape.com/']
 
     rules = (
-        Rule(LinkExtractor(
-                restrict_css='sidebar',
-                deny=(
-                    '/catalogue/category/books_1/index.html',
-                ),
-            ),
-        ),
+        # Rule(LinkExtractor(
+        #         restrict_css='.sidebar',
+        #         deny=(
+        #             '/catalogue/category/books_1/index.html',
+        #         ),
+        #     ),
+        # ),
         Rule(LinkExtractor(restrict_css='li.next')),
         Rule(LinkExtractor(restrict_css='ol'), callback='parse_book')
     )
 
     def parse_book(self, response):
         loader = BookItemLoader(response=response)
-        loader.add_css('category', '.breadcrumb li:nth-child(3)::text')
+        loader.add_css('category', '.breadcrumb li:nth-child(3) a::text')
         loader.add_value('url', response.url)
         detail_loader = loader.nested_css('.product_main')
         detail_loader.add_css('name', 'h1::text')
