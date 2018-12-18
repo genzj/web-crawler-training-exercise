@@ -127,3 +127,7 @@ x.png
 *-out.json
 *-out.jl
 *-out.xml
+
+# scrapy caches
+.scrapy/
+
