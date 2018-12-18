@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+import scrapy
+from ..itemloaders import SingerHoroscopeItemLoader
+
+
+class SingerhoroscopeSpider(scrapy.Spider):
+    name = 'singerHoroscope'
+    start_urls = ['http://music.baidu.com/top/dayhot/']
+
+    def parse(self, response):
+        song_items = response.css('.song-item')
+
+        def extract_by_css(parent, selector):
+            return [s.strip() if s else '-' for s in parent.css(selector).extract()]
+
+        for song in song_items[:10]:
+            for singer in song.css('.author_list a'):
+                req = response.follow(singer, callback=self.parse_singer)
+                req.meta['song'] = {
+                    'rank': extract_by_css(song, '.index-num::text'),
+                    'title': extract_by_css(song, '.song-title > a:first-child::text'),
+                }
+                yield req
+
+    def parse_singer(self, response):
+        return SingerHoroscopeItemLoader.parse_singer_page(response)
+

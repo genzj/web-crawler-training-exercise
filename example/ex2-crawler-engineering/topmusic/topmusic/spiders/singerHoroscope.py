@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from ..itemloaders import SingerHoroscopeItemLoader
+from ..itemloaders import SingerHoroscopeItemLoader, SongItemLoader
 
 
 class SingerhoroscopeSpider(scrapy.Spider):
@@ -10,16 +10,12 @@ class SingerhoroscopeSpider(scrapy.Spider):
     def parse(self, response):
         song_items = response.css('.song-item')
 
-        def extract_by_css(parent, selector):
-            return [s.strip() if s else '-' for s in parent.css(selector).extract()]
-
         for song in song_items[:10]:
-            for singer in song.css('.author_list a'):
-                req = response.follow(singer, callback=self.parse_singer)
-                req.meta['song'] = {
-                    'rank': extract_by_css(song, '.index-num::text'),
-                    'title': extract_by_css(song, '.song-title > a:first-child::text'),
-                }
+            item = SongItemLoader.parse_top_song(song)
+            self.logger.debug('parsed song: %s', item)
+            for url in item['singer_urls']:
+                req = response.follow(url, callback=self.parse_singer)
+                req.meta['song'] = item
                 yield req
 
     def parse_singer(self, response):
