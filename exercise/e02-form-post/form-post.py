@@ -1,15 +1,23 @@
 # -*- encoding: utf-8 -*-
 
 from __future__ import print_function
-from __future__ import print_function
-import urllib, urllib2
 
+try:
+    from urllib.request import OpenerDirector, Request, HTTPHandler
+except ImportError:
+    from urllib2 import OpenerDirector, Request, HTTPHandler
+
+try:
+    from urllib.parse import urlencode as urlencode_
+    urlencode = lambda data: urlencode_(data).encode('ascii')
+except ImportError:
+    from urllib import urlencode
 
 def post_info(url, **kwargs):
-    opener = urllib2.OpenerDirector()
-    opener.add_handler(urllib2.HTTPHandler())
-    form_data = urllib.urlencode(kwargs)
-    req = urllib2.Request(
+    opener = OpenerDirector()
+    opener.add_handler(HTTPHandler())
+    form_data = urlencode(kwargs)
+    req = Request(
         url,
         data=form_data,
         headers={

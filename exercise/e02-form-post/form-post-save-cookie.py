@@ -1,16 +1,24 @@
 # -*- encoding: utf-8 -*-
 
 from __future__ import print_function
-from __future__ import print_function
-import urllib, urllib2
+try:
+    from urllib.request import build_opener, Request, HTTPCookieProcessor
+except ImportError:
+    from urllib2 import build_opener, Request, HTTPCookieProcessor
+
+try:
+    from urllib.parse import urlencode as urlencode_
+    urlencode = lambda data: urlencode_(data).encode('ascii')
+except ImportError:
+    from urllib import urlencode
 
 from bs4 import BeautifulSoup
 
 
 def post_info(url, **kwargs):
-    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
-    form_data = urllib.urlencode(kwargs)
-    req = urllib2.Request(
+    opener = build_opener(HTTPCookieProcessor())
+    form_data = urlencode(kwargs)
+    req = Request(
         url,
         data=form_data,
         headers={

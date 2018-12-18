@@ -1,11 +1,15 @@
 # -*- encoding: utf-8 -*-
 
-import urllib2
+from __future__ import print_function
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
 import json
 
 
 def read_json(url):
-    response = urllib2.urlopen(url)
+    response = urlopen(url)
     assert response.code / 100 == 2, 'status code %s - %s' % (response.code, response.msg)
     assert 'application/json' in response.headers.get('content-type').lower()
     return json.load(response)

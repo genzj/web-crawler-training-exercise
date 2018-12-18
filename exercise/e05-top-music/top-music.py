@@ -24,6 +24,7 @@ def crawl_baidu_music():
         yield rank, title, singer
 
 if __name__ == '__main__':
-    with open('output.txt', 'w') as of:
+    with open('output.txt', 'wb') as of:
         for rank, title, singer in crawl_baidu_music():
-            of.write(u'|'.join([rank, title, singer]).encode('utf-8') + '\n')
+            of.write(u'|'.join([rank, title, singer]).encode('utf-8') + b'\n')
+
