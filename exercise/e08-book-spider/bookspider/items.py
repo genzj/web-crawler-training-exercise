@@ -66,7 +66,7 @@ def extract_star(value):
 
 class BookItemLoader(ItemLoader):
     default_item_class = BookItem
-    default_input_processor = MapCompose(unicode, lambda x: x.strip())
+    default_input_processor = MapCompose(str, str.strip)
     default_output_processor = TakeFirst()
 
     price_in = MapCompose(extract_price)

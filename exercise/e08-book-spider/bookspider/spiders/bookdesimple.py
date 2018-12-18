@@ -23,3 +23,4 @@ class BookdesimpleSpider(scrapy.Spider):
             'availability': 'in stock' in (detail.css('.availability::text').extract_first().lower()),
             'stock': detail.css('.availability').re_first(r'\((\d+) available\)'),
         }
+

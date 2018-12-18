@@ -32,3 +32,4 @@ class BookdetailSpider(CrawlSpider):
         detail_loader.add_css('stock', '.availability', re=r'\((\d+) available\)')
         detail_loader.add_css('star', '.star-rating::attr(class)')
         yield loader.load_item()
+
