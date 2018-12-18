@@ -14,8 +14,8 @@ BOT_NAME = 'login'
 SPIDER_MODULES = ['login.spiders']
 NEWSPIDER_MODULE = 'login.spiders'
 
-LOGIN_USERNAME = 'username'
-LOGIN_PASSWORD = 'password'
+LOGIN_USERNAME = 'userA'
+LOGIN_PASSWORD = 'passwordA'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'login (+http://www.yourdomain.com)'

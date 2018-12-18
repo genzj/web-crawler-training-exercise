@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from scrapy.http import FormRequest
 
-from urllib import urlencode
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
 
 class SimpleloginSpider(scrapy.Spider):
     name = 'simplelogin'
@@ -15,9 +19,22 @@ class SimpleloginSpider(scrapy.Spider):
     login_url = 'http://quotes.toscrape.com/login'
 
     def start_requests(self):
-        yield scrapy.Request(self.login_url, callback=self.login)
+        yield scrapy.Request(self.login_url, callback=self.login_auto)
+        # or...
+        # yield scrapy.Request(self.login_url, callback=self.login_manual)
 
-    def login(self, response):
+    def login_auto(self, response):
+        request = FormRequest.from_response(
+            response,
+            callback=self.landing_page,
+            formdata={
+                'username': 'testuser',
+                'password': 'password',
+            }
+        )
+        yield request
+
+    def login_manual(self, response):
         token = response.css('input[name=csrf_token]::attr(value)').extract_first()
         post_url = response.css('form::attr(action)').extract_first()
         self.logger.debug('post to %s, csrf token is %s', post_url, token)
