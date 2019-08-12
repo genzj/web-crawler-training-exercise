@@ -1,0 +1,6 @@
+beautifulsoup4
+lxml
+requests
+Scrapy
+scrapy-random-useragent
+selenium
