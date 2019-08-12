@@ -7,6 +7,7 @@ from selenium.common.exceptions import TimeoutException
 # Specifying incognito mode as you launch your browser[OPTIONAL]
 option = webdriver.ChromeOptions()
 option.add_argument("--incognito")
+# option.add_argument("--proxy=socks5://127.0.0.1:1080")
 
 # Create new Instance of Chrome in incognito mode
 browser = webdriver.Chrome(chrome_options=option)
@@ -16,9 +17,13 @@ browser.get("https://github.com/genzj")
 
 try:
     # Wait until the final element [Avatar link] is loaded.
-    # Assumption: If Avatar link is loaded, the whole page would be relatively loaded because it is among
-    # the last things to be loaded.
-    WebDriverWait(browser, 20).until(EC.visibility_of_element_located((By.XPATH, "//img[@class='avatar width-full rounded-2']")))
+    # Assumption: If Avatar link is loaded, the whole page would be relatively
+    # loaded because it is among the last things to be loaded.
+    WebDriverWait(browser, 20).until(
+        EC.visibility_of_element_located((
+            By.CSS_SELECTOR,
+            "img.avatar.width-full"
+        )))
 except TimeoutException:
     print("Timed out waiting for page to load")
     browser.quit()
@@ -28,9 +33,10 @@ except TimeoutException:
 # with selenium elements of the titles.
 
 # find_elements_by_xpath - Returns an array of selenium objects.
-titles_element = browser.find_elements_by_xpath("//a[@class='text-bold']")
+titles_element = browser.find_elements_by_css_selector('span.repo')
 
-# List Comprehension to get the actual repo titles and not the selenium objects.
+# List Comprehension to get the actual repo titles
+# and not the selenium objects.
 titles = [x.text for x in titles_element]
 
 # print response in terminal
@@ -39,17 +45,20 @@ print(titles, '\n')
 
 
 # Get all of the pinned repo languages
-language_element = browser.find_elements_by_xpath("//p[@class='mb-0 f6 text-gray']")
-languages = [x.text for x in language_element] # same concept as for-loop/ list-comprehension above.
+language_element = browser.find_elements_by_css_selector(
+    'span[itemprop="programmingLanguage"]'
+)
+# same concept as for-loop/ list-comprehension above.
+languages = [x.text for x in language_element]
 
 # print response in terminal
 print("LANGUAGES:")
 print(languages, '\n')
 
-# Pair each title with its corresponding language using zip function and print each pair
+# Pair each title with its corresponding language using zip function
+# and print each pair
 for title, language in zip(titles, languages):
     print("RepoName : Language")
     print(title + ": " + language, '\n')
 
 browser.quit()
-

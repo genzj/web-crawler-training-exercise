@@ -3,14 +3,14 @@ import scrapy
 from ..itemloaders import SingerHoroscopeItemLoader, SongItemLoader
 
 
-class SingerhoroscopeSpider(scrapy.Spider):
+class SingerHoroscopeSpider(scrapy.Spider):
     name = 'singerHoroscope'
     start_urls = ['http://music.baidu.com/top/dayhot/']
 
     def parse(self, response):
         song_items = response.css('.song-item')
 
-        for song in song_items[:10]:
+        for song in song_items:
             item = SongItemLoader.parse_top_song(song)
             self.logger.debug('parsed song: %s', item)
             for url in item['singer_urls']:
@@ -20,4 +20,3 @@ class SingerhoroscopeSpider(scrapy.Spider):
 
     def parse_singer(self, response):
         return SingerHoroscopeItemLoader.parse_singer_page(response)
-

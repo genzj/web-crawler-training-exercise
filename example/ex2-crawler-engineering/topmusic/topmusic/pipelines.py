@@ -16,6 +16,7 @@ sign_table = {
     u'双鱼座': '水象',
 }
 
+
 class HoroscopeSignPipeline(object):
     def process_item(self, item, spider):
         if not item['horoscope']:
@@ -25,4 +26,3 @@ class HoroscopeSignPipeline(object):
         else:
             raise DropItem('invalid horoscope ' + item['horoscope'])
         return item
-

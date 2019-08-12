@@ -3,17 +3,21 @@
 from __future__ import print_function
 
 try:
-    from urllib.request import OpenerDirector, Request, HTTPHandler
+    from urllib.request import OpenerDirector, build_opener, Request, HTTPHandler
 except ImportError:
     from urllib2 import OpenerDirector, Request, HTTPHandler
 
 try:
     from urllib.parse import urlencode as urlencode_
-    urlencode = lambda data: urlencode_(data).encode('ascii')
+
+    def urlencode(data):
+        return urlencode_(data).encode('ascii')
 except ImportError:
     from urllib import urlencode
 
+
 def post_info(url, **kwargs):
+    # opener = build_opener()
     opener = OpenerDirector()
     opener.add_handler(HTTPHandler())
     form_data = urlencode(kwargs)
@@ -25,6 +29,7 @@ def post_info(url, **kwargs):
         }
     )
     return opener.open(req)
+
 
 if __name__ == '__main__':
     response = post_info(
@@ -40,4 +45,3 @@ if __name__ == '__main__':
         password='password'
     )
     print(response.code, response.headers.get('location'))
-

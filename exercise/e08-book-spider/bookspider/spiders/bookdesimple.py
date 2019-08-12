@@ -16,11 +16,14 @@ class BookdesimpleSpider(scrapy.Spider):
     def parse_detail(self, response):
         detail = response.css('.product_main')
         yield {
-            'category': response.css('.breadcrumb li:nth-child(3) a::text').extract_first(),
+            'category': response.css(
+                '.breadcrumb li:nth-child(3) a::text'
+            ).extract_first(),
             'url': response.url,
             'name': detail.css('h1::text').extract_first(),
             'price': float(detail.css('.price_color').re_first('([0-9.]+)')),
-            'availability': 'in stock' in (detail.css('.availability::text').extract_first().lower()),
+            'availability': 'in stock' in (
+                detail.css('.availability::text').extract_first().lower()
+            ),
             'stock': detail.css('.availability').re_first(r'\((\d+) available\)'),
         }
-

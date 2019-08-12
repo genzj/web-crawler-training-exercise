@@ -17,7 +17,8 @@ class ReusableLoginSpider(scrapy.Spider):
         username = self.settings.get('LOGIN_USERNAME')
         password = self.settings.get('LOGIN_PASSWORD')
         if not username or not password:
-            raise ValueError('LOGIN_USERNAME and LOGIN_PASSWORD should be specified in settings.')
+            raise ValueError(
+                'LOGIN_USERNAME and LOGIN_PASSWORD should be specified in settings.')
 
         yield scrapy.Request(self.login_url, callback=self.login)
 
@@ -36,7 +37,10 @@ class ReusableLoginSpider(scrapy.Spider):
         yield request
 
     def landing_page(self, response):
-        raise NotImplementedError('subclass should implement this method to parse first page after login')
+        raise NotImplementedError(
+            'subclass should implement this method'
+            ' to parse first page after login'
+        )
 
 
 class LoginQuotaSpider(ReusableLoginSpider):
@@ -50,11 +54,13 @@ class LoginQuotaSpider(ReusableLoginSpider):
 
     login_url = 'http://quotes.toscrape.com/login'
 
-
     def landing_page(self, response):
         errors = response.css('.error::text').extract()
         if errors:
-            self.logger.warning('error encountered in landing page: %s', errors)
+            self.logger.warning(
+                'error encountered in landing page: %s',
+                errors
+            )
 
         logout_link = response.css('a[href="/logout"]')
         self.logger.debug('logout_link=%r', logout_link)
@@ -69,4 +75,3 @@ class LoginQuotaSpider(ReusableLoginSpider):
                 'text': quote.css('.text::text').extract_first().strip(),
                 'by': quote.css('.author::text').extract_first().strip(),
             }
-

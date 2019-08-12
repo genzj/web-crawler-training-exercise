@@ -7,7 +7,8 @@ from bs4 import BeautifulSoup
 
 def crawl_baidu_music():
     response = requests.get('http://music.baidu.com/top/dayhot')
-    assert response.ok, 'status code %s - %s' % (response.status_code, response.reason)
+    assert response.ok, \
+        'status code %s - %s' % (response.status_code, response.reason)
 
     response.encoding = 'utf-8'
     page = BeautifulSoup(response.text, 'lxml')
@@ -23,8 +24,8 @@ def crawl_baidu_music():
         print('rank:', rank, 'title:', title, 'singer:', singer)
         yield rank, title, singer
 
+
 if __name__ == '__main__':
     with open('output.txt', 'wb') as of:
         for rank, title, singer in crawl_baidu_music():
             of.write(u'|'.join([rank, title, singer]).encode('utf-8') + b'\n')
-

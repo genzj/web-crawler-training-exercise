@@ -13,9 +13,14 @@ def read_user_agent(req=None):
     if req is None:
         req = Request('http://www.whatsmyua.info/')
     response = urlopen(req)
-    assert response.code / 100 == 2, 'status code %s - %s' % (response.code, response.msg)
+    assert response.code / 100 == 2, \
+        'status code %s - %s' % (response.code, response.msg)
     bs = BeautifulSoup(response.read(), 'lxml')
-    return bs.select_one('#custom-ua-string').text, bs.select_one('#family').text
+    return (
+        bs.select_one('#custom-ua-string').text,
+        bs.select_one('#family').text
+    )
+
 
 if __name__ == '__main__':
     user_agent = read_user_agent()

@@ -3,6 +3,7 @@ from scrapy.loader.processors import TakeFirst, MapCompose, Identity
 
 from .items import SingerHoroscopeItem, SongItem
 
+
 class SingerHoroscopeItemLoader(ItemLoader):
     default_item_class = SingerHoroscopeItem
 
@@ -39,4 +40,3 @@ class SongItemLoader(ItemLoader):
         loader.add_css('rank', '.index-num::text')
         loader.add_css('singer_urls',  '.author_list a::attr(href)')
         return loader.load_item()
-

@@ -9,6 +9,8 @@ class GetuaSpider(scrapy.Spider):
 
     def parse(self, response):
         yield {
-            'User Agent': response.css('#custom-ua-string::text').extract_first(),
+            'User Agent': response.css(
+                '#custom-ua-string::text'
+            ).extract_first(),
             'Name': response.css('#family::text').re_first(r'family: (.*)'),
         }

@@ -8,7 +8,9 @@ except ImportError:
 
 try:
     from urllib.parse import urlencode as urlencode_
-    urlencode = lambda data: urlencode_(data).encode('ascii')
+
+    def urlencode(data):
+        return urlencode_(data).encode('ascii')
 except ImportError:
     from urllib import urlencode
 
@@ -26,8 +28,14 @@ def post_info(url, **kwargs):
         }
     )
     response = opener.open(req)
-    assert response.code / 100 == 2, 'status code %s - %s' % (response.code, response.msg)
-    return BeautifulSoup(response.read(), 'lxml').select_one('.flash').text.strip()
+    assert response.code / 100 == 2, \
+        'status code %s - %s' % (response.code, response.msg)
+    return BeautifulSoup(
+        response.read(), 'lxml'
+    ).select_one(
+        '.flash'
+    ).text.strip()
+
 
 if __name__ == '__main__':
     res = post_info(
@@ -43,4 +51,3 @@ if __name__ == '__main__':
         password='password'
     )
     print(res)
-

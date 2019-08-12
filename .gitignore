@@ -131,3 +131,5 @@ x.png
 # scrapy caches
 .scrapy/
 
+.mypy_cache/
+.vscode/

@@ -10,14 +10,20 @@ class SingerHoroscopeSpider(scrapy.Spider):
         song_items = response.css('.song-item')
 
         def extract_by_css(parent, selector):
-            return [s.strip() if s else '-' for s in parent.css(selector).extract()]
+            return [
+                s.strip() if s else '-'
+                for s in parent.css(selector).extract()
+            ]
 
         for song in song_items:
             for singer in song.css('.author_list a'):
                 req = response.follow(singer, callback=self.parse_singer)
                 req.meta['song'] = {
                     'rank': extract_by_css(song, '.index-num::text'),
-                    'title': extract_by_css(song, '.song-title > a:first-child::text'),
+                    'title': extract_by_css(
+                        song,
+                        '.song-title > a:first-child::text'
+                    ),
                 }
                 yield req
 

@@ -7,6 +7,7 @@ try:
 except ImportError:
     from urllib import urlencode
 
+
 class SimpleloginSpider(scrapy.Spider):
     name = 'simplelogin'
     allowed_domains = ['quotes.toscrape.com']
@@ -35,7 +36,9 @@ class SimpleloginSpider(scrapy.Spider):
         yield request
 
     def login_manual(self, response):
-        token = response.css('input[name=csrf_token]::attr(value)').extract_first()
+        token = response.css(
+            'input[name=csrf_token]::attr(value)'
+        ).extract_first()
         post_url = response.css('form::attr(action)').extract_first()
         self.logger.debug('post to %s, csrf token is %s', post_url, token)
 

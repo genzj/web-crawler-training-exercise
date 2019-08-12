@@ -20,4 +20,3 @@ class SongItem(scrapy.Item):
     singer_urls = scrapy.Field()
     title = scrapy.Field()
     rank = scrapy.Field()
-
